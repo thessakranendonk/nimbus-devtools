@@ -1,9 +1,18 @@
+const { ExperimentManager } = ChromeUtils.import(
+  "resource://nimbus/lib/ExperimentManager.sys.mjs"
+);
+
 export interface EnrollProps {
   title: string;
 }
 
 // type to be changed
-const onSubmit: any = () => {};
+const onSubmit: EventListener = (recipe) => {
+  if (recipe) {
+    ExperimentManager.enroll(recipe, "nimbus-devtools");
+  }
+};
+
 const Enroll: React.FC = ({ title }: EnrollProps) => {
   return (
     <div className="flex items-start space-x-4 max-w-6xl">
@@ -33,6 +42,7 @@ const Enroll: React.FC = ({ title }: EnrollProps) => {
               <button
                 type="submit"
                 className="inline-flex items-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={() => onSubmit}
               >
                 Enroll
               </button>
